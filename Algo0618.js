@@ -1,281 +1,80 @@
-
-
-
-// Vardges , Jay, Isaac ,Jeff
 class SLL {
     constructor() {
         this.head = null;
     }
 
-    // given a SORTED numeric SLL, remove duplicates in place
-    removeDupesSorted(){
-        if (this.head === null)
-            return;
-        let runner = this.head.next;
-        let dupetest=this.head;
-        while(runner){
-            if(runner.data==dupetest.data){
-                runner = runner.next;
-                dupetest.next.next=null;
-                dupetest.next=runner;
-            }
-            else{
-                dupetest=runner;
-                runner=runner.next;
-            }
-        }
 
-
-    }
-
-    // 1 -> 1 -> 1 -> 3 -> 3 -> null
-
-    //             1 -> 1 ->      3->
-    // head -> 1 -----------> 3 ------>
-
-    // 1 -> 3 -> null
-
-    // given a numeric SLL of either positive or negative numbers, remove
-    // negative numbers in place
-    removeNegatives(){
-        if(this.head.data < 0)
-            this.head = this.head.next;
-
-        let runner = this.head;
-        let prev = null;
-        while(runner !== null){
-            if (runner.data < 0){
-                runner = runner.next;
-                prev.next.next = runner;
-                prev.next = runner;
-            }
-            else{
-                prev= runner;
-                runner = runner.next;
-            }
-        }
-    }
-
-
-    // recursively return the largest node in the
-
-    // current and the max should be this.head on the first call
-    recursiveMax(current, max) {
-        if (current = this.tail) {
-            if (current.data > max.data) {
-                return current;
-            } else {
-                return max;
-            }
-        } else {
-            if (current.data > max.data) {
-                max = current;
-            }
-        }
-        return recursiveMax(current.next, max);
-    }
-
-
-
-    reverse() {
-        var prev = null;
+    // partition a SList such that all values less than the given value are to the left of it,
+    // and all values greater than the given value are to the right (not perfectly sorted)
+    partition(val) {
+        // current to head
         var current = this.head;
-        var next = null;
-        while (current) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-        }
-        this.head = prev;
-    }
+        // set six pointers, for the front and back of three new 'lists'
+        var lesserHead, lesserTail, greaterHead, greaterTail, equalHead, equalTail;
 
-    nthFromLast(n) {
-        if (this.head === null) {
-            return this.head;
-        }
-        var runnerFast = this.head;
-        var runnerSlow = this.head;
-        var count = 0;
-        while (runnerFast) {
-            if (count >= n) {
-                runnerSlow = runnerSlow.next;
-            }
-            runnerFast = runnerFast.next;
-            count++;
-        }
-        return runnerSlow;
-    }
-
-    nthFromLast2(n) {
-        if (this.head === null) {
-            return this.head;
-        }
-        var runner = this.head;
-        while (n > 0) {
-            runner = runner.next;
-            n--;
-        }
-        var secondRunner = this.head;
-        while (runner) {
-            runner = runner.next;
-            secondRunner = secondRunner.next;
-        }
-        return secondRunner;
-    }
-
-    display(){
-        var runner = this.head;
-        while (runner !== null) {
-            console.log(runner.data);
-            runner = runner.next;
-        }
-    }
-
-    delete(data) {
-        var runner = this.head;
-        var prev = null;
-
-        if (runner !== null && runner.data == data) {
-            this.head = runner.next;
-            return;
-        }
-
-        while (runner && runner.data !== data) {
-            prev = runner;
-            runner = runner.next;
-        }
-
-        if (runner === null) {
-            return;
-        }
-        //runner is now our node to be deleted
-        prev.next = runner.next;
-    }
-
-    addToFront(node){
-        if(this.isEmpty()){
-            this.head = node;
-            return;
-        };
-
-        node.next = this.head;
-        this.head = node;
-        return;
-    }
-
-    isEmpty(){
-        if(this.head){
-            return false;
-        }
-        return true;
-    }
-
-    addToBack(node){
-        // create a runner at the head
-        let runner = this.head;
-
-        // check if the runner is null, meaning our list is headless
-        if(runner === null){
-            this.head = node;
-            return
-        }
-
-        // "10" == 10 yes
-        // "10" === 10 no
-
-        // start while looping
-        while(runner){
-            // check if the next node is null
-            if(runner.next === null){
-                // if so, add here and return
-                runner.next = node;
-                return
-            }
-            // if not, advance runner
-            runner = runner.next;
-        }
-    }
-
-    contains(value){
-        // start at the head
-        var runner = this.head;
-
-        // while we have a runner
-        while(runner){
-
-            // return true if data === value
-            if(runner.data === value){
-                return true;
-            }
-            // otherwise advance the runner
-            runner = runner.next;
-        }
-
-        return false;
-    }
-
-    recursiveContains(current, value){
-        // if you didn't pass current, current should be the head
-        if(current === undefined) current = this.head;
-
-        // if current is null, return false up the call stack
-        if(current === null) return false;
-
-        // if runner.data === value, return true up the call stack
-        if(runner.data === value) return true;
-
-        // otherwise return the result of contains for current.next
-        return this.recursiveContains(current.next, value);
-    }
-
-    removeHead(){
-        if(this.isEmpty()) return null;
-        var removed = this.head;
-        this.head = this.head.next;
-        removed.next = null;
-        return removed;
-    }
-
-    removeHeadValue(){
-        if(this.isEmpty()) return null;
-
-        var removed = this.head;
-        this.head = this.head.next;
-        return removed.value;
-    }
-
-    removeBack(){
-        if(this.isEmpty()) return null;
-        if(this.head.next === null){
-            return this.removeHead();
-        }
-        var current = this.head.next;
-        var prev = this.head;
+        // loop the entire list
         while(current){
-            if(current.next === null){
-                prev.next = null;
-                return current;
+            // duplicates and also centering val
+            if(current.data === val){
+                // if the first in the equal list
+                if(!equalHead){
+                    equalHead = current;
+                    equalTail = current;
+                } else {
+                    // otherwise
+                    equalTail.next = current;
+                    equalTail = equalTail.next;
+                }
+            // lesser head
+            }else if(current.data < val){
+                if(!lesserHead){
+                    lesserHead = current;
+                    lesserTail = current;
+                } else {
+                    lesserTail.next = current;
+                    lesserTail = lesserTail.next;
+                }
+            // greater head
+            }else if(current.data > val){
+                if(!greaterHead){
+                    greaterHead = current;
+                    greaterTail = current;
+                } else {
+                    greaterTail.next = current;
+                    greaterTail = greaterTail.next;
+                }
             }
-            prev = current;
+            // move current
             current = current.next;
         }
+
+        // snip the tail of the greaters so it doesn't reference
+        if(greaterTail) greaterTail.next = null;
+
+        // if nothing is equal, give back the partition anyway
+        if(!equalHead) {
+            lesserTail.next = greaterHead;
+            // don't forget to move the head
+            this.head = lesserHead;
+            return this;
+        }
+
+        // otherwise tie them all together
+        lesserTail.next = equalHead;
+        equalTail.next = greaterHead;
+        // don't forget to move the head
+        this.head = lesserTail;
+        return this;
     }
-}
-
-class Node {
-    constructor(data) {
-        this.data = data;
-        this.next = null;
-    }
-}
 
 
+    // partition for 4
+    // 5 -> 7 -> 3 -> 4 -> 1 -> 2 -> 8 -> null
+    // val = 4
 
-class SLL {
-    constructor() {
-        this.head = null;
-    }
+    // all values left are lower and right are greater
+    // 2 -> 1 -> 3 -> (4) -> 7 -> 5 -> 8 -> null
+
 
     // given a SORTED numeric SLL, remove duplicates in place
     removeDupesSorted(){
