@@ -105,10 +105,25 @@ function getMaxServings2(recipe, available) {
 
   function getMeds2(ailments, medications) {
     // your code here
-    var tempObj = {};
-    var returnArr = [];
-    
-    return tempArray;
+    let output = [];
+    let ails = {};
+    let max = 0;
+    for(let i = 0; i <ailments.length; i++){
+        ails[ailments[i]] = 1;
+    }
+    for(let j = 0; j < medications.length; j++){
+        let count = 0;
+        for(let i = 0; i <medications[j].treatableSymptoms.length; i++){
+            if(ails.hasOwnProperty(medications[j].treatableSymptoms[i])) count++;
+        }
+        if(count > max){
+          output = [medications[j].name];
+          max = count;
+        }else if(count == max && max != 0){
+            output.push(medications[j].name);
+        }
+    }
+    return output;
   }
   
   const medications = [
