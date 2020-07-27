@@ -47,9 +47,8 @@ function dropIt(arr, callback) {
   function couldBePalindrome(str) {
     // your code here
     var countObj = {};
-    var evenCount = 0;
     var oddCount = 0;
-    for (var i=0;i<str.length;i++) {
+    for (var i=0; i<str.length ;i++) {
         if (countObj.hasOwnProperty(str[i])) {
             countObj[str[i]]++;
         } else {
