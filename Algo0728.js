@@ -51,6 +51,30 @@ function questionMarks2(str) {
     return false;
 }
 
+function questionMarks3(str) {
+    let questionCounter = 0;
+    let sum = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] == '?') {
+            questionCounter++;
+        } else if (!isNaN(parseInt(str[i]))) {
+            console.log('this is the question counter: ', questionCounter);
+            if (sum == 0) {
+                questionCounter = 0;
+                sum += parseInt(str[i]);
+            } else if (questionCounter == 3) {
+                sum += parseInt(str[i]);
+            }
+            console.log('this is the sum: ', sum);
+
+            if (sum == 10) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 parseInt('s') // returns NaN
 parseInt('5') // returns 5
 isNaN(NaN) // returns true
